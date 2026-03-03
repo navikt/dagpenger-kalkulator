@@ -1,4 +1,4 @@
-# Velkommen til kode-oppgave hos oss i Nav IT!
+# Velkommen til kode-oppgave hos oss i Nav Teknologi!
 
 Gratuler med å bli kalt inn til intervju hos oss i Nav, nå ønsker vi å bli litt bedre kjent med hvordan
 du jobber og reflekter over kode. I denne oppgaven vil du bli gitt en eksisterende kodebase for en dagpenger kalkulator som du skal
