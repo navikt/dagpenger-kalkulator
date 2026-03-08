@@ -34,9 +34,13 @@ public class DagpengerKalkulator {
 
     private final List<Årslønn> årslønner;
 
-    public DagpengerKalkulator() {
-        this.grunnbeløpVerktøy = new GrunnbeløpVerktøy();
+    public DagpengerKalkulator(GrunnbeløpVerktøy grunnbeløpVerktøy) {
+        this.grunnbeløpVerktøy = grunnbeløpVerktøy;
         this.årslønner = new ArrayList<>();
+    }
+
+    public DagpengerKalkulator() {
+        this(new GrunnbeløpVerktøy());
     }
 
     /**
