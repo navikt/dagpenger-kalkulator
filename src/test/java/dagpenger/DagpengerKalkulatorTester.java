@@ -12,9 +12,13 @@ import no.nav.årslønn.Årslønn;
 
 public class DagpengerKalkulatorTester {
 
+    private static DagpengerKalkulator kalkulatorMedFastG(double g) {
+        return new DagpengerKalkulator(new no.nav.grunnbeløp.GrunnbeløpVerktøy(() -> g));
+    }
+
     @Test
     public void testSkalHaRettigheterTilDagpengerUtifraSisteTreÅrslønner()  {
-        DagpengerKalkulator dagpengerKalkulator = new DagpengerKalkulator();
+        DagpengerKalkulator dagpengerKalkulator = kalkulatorMedFastG(100_000);
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2023, 445000));
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2025, 465000));
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2024, 300000));
@@ -23,7 +27,7 @@ public class DagpengerKalkulatorTester {
 
     @Test
     public void testSkalHaRetigheterTilDagpengerSisteÅrslønn() {
-        DagpengerKalkulator dagpengerKalkulator = new DagpengerKalkulator();
+        DagpengerKalkulator dagpengerKalkulator = kalkulatorMedFastG(100_000);
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2023, 0));
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2024, 0));
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2025, 467000));
@@ -32,7 +36,7 @@ public class DagpengerKalkulatorTester {
 
     @Test
     public void testSkalIkkeHaRettigheterTilDagpengerSisteTreÅrslønner()  {
-        DagpengerKalkulator dagpengerKalkulator = new DagpengerKalkulator();
+        DagpengerKalkulator dagpengerKalkulator = kalkulatorMedFastG(100_000);
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2023, 44000));
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2025, 52000));
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2024, 100000));
@@ -41,7 +45,7 @@ public class DagpengerKalkulatorTester {
 
     @Test
     public void testSkalIkkeHaRettigheterTilDagpengerSisteÅrslønn()  {
-        DagpengerKalkulator dagpengerKalkulator = new DagpengerKalkulator();
+        DagpengerKalkulator dagpengerKalkulator = kalkulatorMedFastG(100_000);
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2023, 0));
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2025, 130000));
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2024, 0));
@@ -50,7 +54,7 @@ public class DagpengerKalkulatorTester {
 
     @Test
     public void testBeregningsMetodeBlirSattTilSisteÅrslønn() {
-        DagpengerKalkulator dagpengerKalkulator = new DagpengerKalkulator();
+        DagpengerKalkulator dagpengerKalkulator = kalkulatorMedFastG(100_000);
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2025, 550000));
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2023, 110000));
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2024, 24000));
@@ -60,7 +64,7 @@ public class DagpengerKalkulatorTester {
 
     @Test
     public void testBeregningsMetodeBlirSattTilMaksÅrslønnGrunnbeløp() {
-        DagpengerKalkulator dagpengerKalkulator = new DagpengerKalkulator();
+        DagpengerKalkulator dagpengerKalkulator = kalkulatorMedFastG(100_000);
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2025, 830000));
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2023, 110000));
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2024, 24000));
@@ -70,7 +74,7 @@ public class DagpengerKalkulatorTester {
 
     @Test
     public void testBeregningsMetodeBlirSattTilGjennomsnittetAvTreÅr() {
-        DagpengerKalkulator dagpengerKalkulator = new DagpengerKalkulator();
+        DagpengerKalkulator dagpengerKalkulator = kalkulatorMedFastG(100_000);
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2025, 330000));
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2023, 400000));
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2024, 334000));
@@ -80,7 +84,7 @@ public class DagpengerKalkulatorTester {
 
     @Test
     public void testDagsatsKalkulertUtifraSisteÅrslønn() {
-        DagpengerKalkulator dagpengerKalkulator = new DagpengerKalkulator();
+        DagpengerKalkulator dagpengerKalkulator = kalkulatorMedFastG(100_000);
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2025, 550000));
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2023, 110000));
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2024, 24000));
@@ -89,16 +93,16 @@ public class DagpengerKalkulatorTester {
 
     @Test
     public void testDagsatsKalkulertUtifraMaksÅrligGrunnbeløp() {
-        DagpengerKalkulator dagpengerKalkulator = new DagpengerKalkulator();
+        DagpengerKalkulator dagpengerKalkulator = kalkulatorMedFastG(100_000);
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2025, 830000));
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2024, 24000));
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2023, 110000));
-        assertEquals(3004, dagpengerKalkulator.kalkulerDagsats());
+        assertEquals(2308, dagpengerKalkulator.kalkulerDagsats());
     }
 
     @Test
     public void testDagsatsKalkulertUtifraTreÅrsGjennomsnitt() {
-        DagpengerKalkulator dagpengerKalkulator = new DagpengerKalkulator();
+        DagpengerKalkulator dagpengerKalkulator = kalkulatorMedFastG(100_000);
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2025, 330000));
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2024, 334000));
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2023, 400000));
@@ -107,7 +111,7 @@ public class DagpengerKalkulatorTester {
 
     @Test
     public void testDagsatsKalkulertIkkeRettPåDagpenger() {
-        DagpengerKalkulator dagpengerKalkulator = new DagpengerKalkulator();
+        DagpengerKalkulator dagpengerKalkulator = kalkulatorMedFastG(100_000);
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2025, 80000));
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2024, 100000));
         dagpengerKalkulator.leggTilÅrslønn(new Årslønn(2023, 70000));

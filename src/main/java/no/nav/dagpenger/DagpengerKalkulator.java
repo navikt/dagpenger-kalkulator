@@ -76,9 +76,9 @@ public class DagpengerKalkulator {
     public boolean harRettigheterTilDagpenger() {
         boolean harRettigheter = false;
 
-        if (summerNyligeÅrslønner(3) >= grunnbeløpVerktøy.hentTotaltGrunnbeløpForGittAntallÅr(3)) {
+        if (summerNyligeÅrslønner(3) / 3 > grunnbeløpVerktøy.hentTotaltGrunnbeløpForGittAntallÅr(3)) {
             harRettigheter = true;
-        } else if (hentÅrslønnVedIndeks(0).hentÅrslønn() >= grunnbeløpVerktøy.hentMinimumÅrslønnForRettPåDagpenger()) {
+        } else if (hentÅrslønnVedIndeks(0).hentÅrslønn() > grunnbeløpVerktøy.hentMinimumÅrslønnForRettPåDagpenger()) {
             harRettigheter = true;
         }
 
