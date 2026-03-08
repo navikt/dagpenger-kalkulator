@@ -30,9 +30,9 @@ public class DagpengerKalkulator {
         MAKS_ÅRLIG_DAGPENGERGRUNNLAG
     }
 
-    public final GrunnbeløpVerktøy grunnbeløpVerktøy;
+    private final GrunnbeløpVerktøy grunnbeløpVerktøy;
 
-    public final List<Årslønn> årslønner;
+    private final List<Årslønn> årslønner;
 
     public DagpengerKalkulator() {
         this.grunnbeløpVerktøy = new GrunnbeløpVerktøy();
