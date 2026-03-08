@@ -1,12 +1,12 @@
 package no.nav.dagpenger;
 
-import no.nav.grunnbeløp.GrunnbeløpVerktøy;
-import no.nav.årslønn.Årslønn;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import no.nav.grunnbeløp.GrunnbeløpVerktøy;
+import no.nav.årslønn.Årslønn;
 
 /**
  * Kalkulator for å beregne hvor mye dagpenger en person har rett på i Norge basert på dagens grunnbeløp (1G).
@@ -23,6 +23,12 @@ import java.util.List;
  * @version 1.0
  */
 public class DagpengerKalkulator {
+
+    public enum BeregningsMetode {
+        SISTE_ÅRSLØNN,
+        GJENNOMSNITTET_AV_TRE_ÅR,
+        MAKS_ÅRLIG_DAGPENGERGRUNNLAG
+    }
 
     public final GrunnbeløpVerktøy grunnbeløpVerktøy;
 
@@ -41,14 +47,17 @@ public class DagpengerKalkulator {
      */
     public double kalkulerDagsats() {
         double dagsats = 0;
-
         int arbeidsdagerIÅret = 260;
-        if (harRettigheterTilDagpenger() == true) {
-            if (velgBeregningsMetode() == "SISTE_ÅRSLØNN") {
+
+        if (harRettigheterTilDagpenger()) {
+            BeregningsMetode metode = velgBeregningsMetode();
+
+            if (metode == BeregningsMetode.SISTE_ÅRSLØNN) {
                 dagsats = Math.ceil(hentÅrslønnVedIndeks(0).hentÅrslønn() / arbeidsdagerIÅret);
-            } else if (velgBeregningsMetode() == "GJENNOMSNITTET_AV_TRE_ÅR") {
+            } else if (metode == BeregningsMetode.GJENNOMSNITTET_AV_TRE_ÅR) {
                 dagsats = Math.ceil((summerNyligeÅrslønner(3) / 3) / arbeidsdagerIÅret);
-            } else if (velgBeregningsMetode() == "MAKS_ÅRLIG_DAGPENGERGRUNNLAG") {
+            } else if (metode == BeregningsMetode.MAKS_ÅRLIG_DAGPENGERGRUNNLAG) {
+
                 dagsats = Math.ceil(grunnbeløpVerktøy.hentMaksÅrligDagpengegrunnlag() / arbeidsdagerIÅret);
             }
         }
@@ -76,19 +85,17 @@ public class DagpengerKalkulator {
      * Velger hva som skal være beregnings metode for dagsats ut ifra en person sine årslønner.
      * @return beregnings metode for dagsats.
      */
-    public String velgBeregningsMetode() {
-        String beregningsMetode;
+    public BeregningsMetode velgBeregningsMetode() {
+        double sisteÅrslønn = hentÅrslønnVedIndeks(0).hentÅrslønn();
+        double snittTreÅr = summerNyligeÅrslønner(3) / 3;
 
-        if (hentÅrslønnVedIndeks(0).hentÅrslønn() > (summerNyligeÅrslønner(3) / 3)) {
-           beregningsMetode = "SISTE_ÅRSLØNN";
-           if (hentÅrslønnVedIndeks(0).hentÅrslønn() > grunnbeløpVerktøy.hentMaksÅrligDagpengegrunnlag()) {
-               beregningsMetode = "MAKS_ÅRLIG_DAGPENGERGRUNNLAG";
-           }
-        } else {
-            beregningsMetode = "GJENNOMSNITTET_AV_TRE_ÅR";
+        if (sisteÅrslønn > snittTreÅr) {
+            if (sisteÅrslønn > grunnbeløpVerktøy.hentMaksÅrligDagpengegrunnlag()) {
+                return BeregningsMetode.MAKS_ÅRLIG_DAGPENGERGRUNNLAG;
+            }
+            return BeregningsMetode.SISTE_ÅRSLØNN;
         }
-
-        return beregningsMetode;
+        return BeregningsMetode.GJENNOMSNITTET_AV_TRE_ÅR;
     }
 
     public void leggTilÅrslønn(Årslønn årslønn) {
